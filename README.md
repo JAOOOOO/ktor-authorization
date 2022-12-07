@@ -5,18 +5,40 @@ A Plugin to make authorization in ktor as easy as it gets
 
 ## How to use
 
-Add the package to your build files
 
-install the plugin ```implementation("com.jaooooo.ktor-authorization-0.0.1")```
+##### install the plugin 
+```bash
+implementation("com.jaooooo:ktor-authorization:0.0.2")
+```
+##### Extend **RoleUser**
+```bash
+class MyUser(override val roles: Set<Role>, ....) : RoleUser()
+```
+Set your User Roles' by your preferred authentication method.
 
-Let your defined Principal extend of **RoleUser** instead of **Principal**
+##### Enjoy authorizing with eash <3
 
-override roles of the user with user roles' when you set your principal
+Use one of the three pre-defined AuthType(s) or All Of them combined 
 
-use one of the three defined interfaces
+```WithAllRoles()``` 
 
-```withRoles("user","moderator","provider") { .. }``` defines a logical **AND**
+Applies logical **AND** to the required roles, a user must have them all 
 
-```WithAnyRole("user","moderator","provider") { .. }``` defines a logical **OR**
+```WithAnyRole()``` 
 
-```withoutRoles("visitor") { .. }``` defines logical **NOT**
+Applies logical **OR** to the required roles, any role can do
+
+```withoutRoles()```
+
+Applies logical **NOT** to the required roles, a user can't have any of those
+
+### Example
+```bash
+authenticate {
+  withAllRoles("Moderator","Provider") {
+    get("/secret-content") {
+      call.respondText("I love ktor, tell nobody!")
+    }
+  }  
+}
+```
