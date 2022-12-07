@@ -1,6 +1,5 @@
-package plugin.model
+package com.jaooooo.ktor.authorization.plugin.model
 
-typealias Role = String
 class AuthConfig {
     ///Required Roles to satisfy [authType] conditions
     var roles : Set<Role> = emptySet()

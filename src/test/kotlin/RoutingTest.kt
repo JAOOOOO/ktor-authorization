@@ -1,6 +1,6 @@
-import ext.withAnyRole
-import ext.withRoles
-import ext.withoutRoles
+import com.jaooooo.ktor.authorization.ext.withAnyRole
+import com.jaooooo.ktor.authorization.ext.withAllRoles
+import com.jaooooo.ktor.authorization.ext.withoutRoles
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -12,10 +12,10 @@ import io.ktor.server.sessions.*
 import io.ktor.server.testing.*
 import org.junit.Assert.*
 import org.junit.Test
-import plugin.model.AuthenticationException
-import plugin.model.AuthorizationException
-import plugin.model.Role
-import plugin.model.RoleUser
+import com.jaooooo.ktor.authorization.plugin.model.AuthenticationException
+import com.jaooooo.ktor.authorization.plugin.model.AuthorizationException
+import com.jaooooo.ktor.authorization.plugin.model.Role
+import com.jaooooo.ktor.authorization.plugin.model.RoleUser
 import kotlin.test.assertFailsWith
 
 class RoleUserImp (override val roles: Set<Role> = setOf("ABC")) : RoleUser()
@@ -51,7 +51,7 @@ class RoutingTest {
                 call.sessions.set<RoleUserImp>(RoleUserImp())
             }
             authenticate {
-                withRoles("ABC") {
+                withAllRoles("ABC") {
                     get("/any-test") {
                         call.respondText(status = HttpStatusCode.OK, text = "You're good")
                     }
@@ -176,7 +176,7 @@ class RoutingTest {
 
         routing {
             authenticate {
-                withRoles("ABC") {
+                withAllRoles("ABC") {
                     get("/any-test") {
                         call.respondText(status = HttpStatusCode.OK, text = "You're good")
                     }
@@ -220,7 +220,7 @@ class RoutingTest {
                 call.sessions.set(RoleUserImp(roles = setOf()))
             }
             authenticate {
-                withRoles("ABC") {
+                withAllRoles("ABC") {
                     get("/any-test") {
                         call.respondText(status = HttpStatusCode.OK, text = "You're good")
                     }

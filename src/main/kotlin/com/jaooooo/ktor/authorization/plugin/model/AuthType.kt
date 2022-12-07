@@ -1,4 +1,4 @@
-package plugin.model
+package com.jaooooo.ktor.authorization.plugin.model
 
 enum class AuthType {
     ALL,

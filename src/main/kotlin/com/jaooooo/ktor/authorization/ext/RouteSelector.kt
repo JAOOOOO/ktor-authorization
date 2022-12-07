@@ -1,4 +1,4 @@
-package ext
+package com.jaooooo.ktor.authorization.ext
 
 import io.ktor.server.routing.*
 

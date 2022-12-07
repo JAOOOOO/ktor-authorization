@@ -1,18 +1,20 @@
-package ext
+package com.jaooooo.ktor.authorization.ext
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import plugin.RoleAuthorization
-import plugin.model.AuthType
-import plugin.model.Role
+import com.jaooooo.ktor.authorization.plugin.RoleAuthorization
+import com.jaooooo.ktor.authorization.plugin.model.AuthType
+import com.jaooooo.ktor.authorization.plugin.model.Role
 
-fun Route.withRoles(vararg roles: Role, build: Route.() -> Unit) =
+
+///Applies logical AND between roles
+fun Route.withAllRoles(vararg roles: Role, build: Route.() -> Unit) =
     authorizedRoute(
         requiredRoles = roles.toSet(),
         authType = AuthType.ALL,
         build = build,
     )
-
+///Applies logical OR between roles
 fun Route.withAnyRole(vararg roles: Role, build: Route.() -> Unit) =
     authorizedRoute(
         requiredRoles = roles.toSet(),
@@ -20,6 +22,7 @@ fun Route.withAnyRole(vararg roles: Role, build: Route.() -> Unit) =
         build = build,
     )
 
+///Applies logical NOT for provided roles
 fun Route.withoutRoles(vararg roles: Role, build: Route.() -> Unit) =
     authorizedRoute(
         requiredRoles = roles.toSet(),

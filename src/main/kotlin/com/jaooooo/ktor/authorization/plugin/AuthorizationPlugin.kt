@@ -1,9 +1,9 @@
-package plugin
+package com.jaooooo.ktor.authorization.plugin
 
+import com.jaooooo.ktor.authorization.plugin.model.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 
-import plugin.model.*
 
 
 val RoleAuthorization = createRouteScopedPlugin(
