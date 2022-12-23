@@ -24,27 +24,11 @@ class RoutingTest {
     @Test
     fun `can authorize with ALL`() = testApplication {
 
-        install(Sessions) {
-            cookie<RoleUserImp>("user_session")
-        }
-
-        install(Authentication) {
-            session<RoleUserImp> {
-                challenge {
-
-                }
-                validate {
-                    it
-                }
-            }
-        }
+        setUpAuthentication()
 
         val testHttpClient = createClient {
             install(HttpCookies)
         }
-
-
-
 
         routing {
             get("/auth") {
@@ -68,20 +52,7 @@ class RoutingTest {
     @Test
     fun `can authorize with ANY`() = testApplication {
 
-        install(Sessions) {
-            cookie<RoleUserImp>("user_session")
-        }
-
-        install(Authentication) {
-            session<RoleUserImp> {
-                challenge {
-
-                }
-                validate {
-                    it
-                }
-            }
-        }
+        setUpAuthentication()
 
         val testHttpClient = createClient {
             install(HttpCookies)
@@ -112,20 +83,7 @@ class RoutingTest {
     @Test
     fun `throws AuthorizationException if user has a Role marked with None`() = testApplication {
 
-        install(Sessions) {
-            cookie<RoleUserImp>("user_session")
-        }
-
-        install(Authentication) {
-            session<RoleUserImp> {
-                challenge {
-
-                }
-                validate {
-                    it
-                }
-            }
-        }
+        setUpAuthentication()
 
         val testHttpClient = createClient {
             install(HttpCookies)
@@ -159,19 +117,7 @@ class RoutingTest {
             install(HttpCookies)
         }
 
-        install(Sessions) {
-            cookie<RoleUserImp>("user_session")
-        }
-        install(Authentication) {
-            session<RoleUserImp> {
-                challenge {
-
-                }
-                validate {
-                    it
-                }
-            }
-        }
+        setUpAuthentication()
 
 
         routing {
@@ -193,20 +139,7 @@ class RoutingTest {
     @Test
     fun `throws AuthorizationException when user doesn't have sufficient roles`() = testApplication {
 
-        install(Sessions) {
-            cookie<RoleUserImp>("user_session")
-        }
-
-        install(Authentication) {
-            session<RoleUserImp> {
-                challenge {
-
-                }
-                validate {
-                    it
-                }
-            }
-        }
+        setUpAuthentication()
 
         val testHttpClient = createClient {
             install(HttpCookies)
@@ -234,5 +167,22 @@ class RoutingTest {
             testHttpClient.get("/any-test")
         }
 
+    }
+
+    private fun ApplicationTestBuilder.setUpAuthentication() {
+        install(Sessions) {
+            cookie<RoleUserImp>("user_session")
+        }
+
+        install(Authentication) {
+            session<RoleUserImp> {
+                challenge {
+
+                }
+                validate {
+                    it
+                }
+            }
+        }
     }
 }
